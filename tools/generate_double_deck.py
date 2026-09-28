@@ -150,11 +150,11 @@ def outer_walls(floor, tag):
     if floor == 1:      # 闸口 y∈[-1.25,-0.75]
         out.append(solid('%s_E' % tag, HALF, 0.25, zc,
                          WALL_T, 2.0, WALL_H, TEAL))
-    else:               # 闸口 y∈[-0.25,0.25]
-        out.append(solid('%s_E1' % tag, HALF, -0.75, zc,
-                         WALL_T, 1.0, WALL_H, TEAL))
-        out.append(solid('%s_E2' % tag, HALF, 0.75, zc,
-                         WALL_T, 1.0, WALL_H, TEAL))
+    else:               # 闸口 y∈[0.25,0.75]（row3）
+        out.append(solid('%s_E1' % tag, HALF, -0.5, zc,
+                         WALL_T, 1.5, WALL_H, TEAL))
+        out.append(solid('%s_E2' % tag, HALF, 1.0, zc,
+                         WALL_T, 0.5, WALL_H, TEAL))
     return out
 
 
@@ -163,8 +163,8 @@ def build_wbt(w1, w2, waypoints):
     a = lines.append
     a('#VRML_SIM R2023b utf8\n')
     a('WorldInfo {\n  basicTimeStep 16\n}\n')
-    a('Viewpoint {\n  orientation 0.7071 0.7071 0 1.0472\n'
-      '  position 3.4 -3.4 3.2\n}\n')
+    a('Viewpoint {\n  orientation 0.7431 0.3078 0.5944 1.2169\n'
+      '  position 3.4 -3.4 3.4\n}\n')
     a('Background {\n  skyColor [ 0.78 0.84 0.88 ]\n}\n')
     a('DirectionalLight {\n  direction -0.4 0.4 -1\n  intensity 1.4\n'
       '  ambientIntensity 0.4\n}\n')
@@ -210,11 +210,11 @@ def build_wbt(w1, w2, waypoints):
     a(solid('RAMP_RAIL_E', RAMP_X + RAMP_W / 2 + 0.01, cyc, czc + 0.04,
             0.02, round(RAMP_LEN, 4), 0.08, TEAL, rot))
     # 栈桥（顶面与楼板齐平），东/北沿加栏杆
-    a(solid('BRIDGE', 1.4, 0.0, DECK_TOP - DECK_T / 2,
-            0.5, 0.6, DECK_T, CREAM))
-    a(solid('BRIDGE_RAIL_E', 1.66, 0.0, DECK_TOP + 0.04,
-            0.02, 0.6, 0.08, TEAL))
-    a(solid('BRIDGE_RAIL_N', 1.4, 0.31, DECK_TOP + 0.04,
+    a(solid('BRIDGE', 1.4, 0.1, DECK_TOP - DECK_T / 2,
+            0.5, 0.8, DECK_T, CREAM))
+    a(solid('BRIDGE_RAIL_E', 1.66, 0.1, DECK_TOP + 0.04,
+            0.02, 0.8, 0.08, TEAL))
+    a(solid('BRIDGE_RAIL_N', 1.4, 0.51, DECK_TOP + 0.04,
             0.5, 0.02, 0.08, TEAL))
 
     a('# ===== 二层迷宫（楼板上）=====\n')
@@ -456,8 +456,8 @@ def draw_png(w1, p1, w2, p2, out_path):
     draw_panel(a1, w1, (-1.25, -0.75), '第一层：起点 → 东侧闸口', p1,
                [(cc(0, 0)[0], cc(0, 0)[1], 'green', '起点', 'center'),
                 (1.32, -1.0, '#d97a2b', '闸口→', 'left')])
-    draw_panel(a2, w2, (-0.25, 0.25), '第二层：东侧闸口 → 终点', p2,
-               [(cc(4, 2)[0], cc(4, 2)[1], '#d97a2b', '←闸口', 'center'),
+    draw_panel(a2, w2, (0.25, 0.75), '第二层：东侧闸口 → 终点', p2,
+               [(cc(4, 3)[0], cc(4, 3)[1], '#d97a2b', '←闸口', 'center'),
                 (cc(0, 4)[0], cc(0, 4)[1], 'orangered', '终点', 'center')])
     fig.suptitle('双层立体迷宫布局（每层 5×5，层高 0.30m，外挂斜坡+栈桥连接）',
                  fontsize=13)
@@ -472,13 +472,13 @@ def draw_png(w1, p1, w2, p2, out_path):
 
 def main():
     s1, w1, p1 = pick_floor(1, (0, 0), (4, 0))       # 一层：起点→东闸口
-    s2, w2, p2 = pick_floor(100, (4, 2), (0, 4))     # 二层：东闸口→终点
+    s2, w2, p2 = pick_floor(100, (4, 3), (0, 4))     # 二层：东闸口(row3)→终点
     print('一层 seed=%d 路径 %d 格：%s' % (s1, len(p1), p1))
     print('二层 seed=%d 路径 %d 格：%s' % (s2, len(p2), p2))
 
     wps = [cc(i, j) for i, j in p1]
-    wps += [(1.45, -1.0), (1.5, -0.5), (1.5, 0.25), (1.0, 0.0)]
-    wps += [cc(i, j) for i, j in p2[1:]]             # 去掉重复闸口格
+    wps += [(1.45, -1.0), (1.5, -0.5), (1.5, 0.45)]  # 出闸 → 上坡 → 桥上待转点
+    wps += [cc(i, j) for i, j in p2]                 # 二层路线（含闸口格）
     # 相邻去重
     dedup = [wps[0]]
     for w in wps[1:]:

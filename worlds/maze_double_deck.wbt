@@ -5,8 +5,8 @@ WorldInfo {
 }
 
 Viewpoint {
-  orientation 0.7071 0.7071 0 1.0472
-  position 3.4 -3.4 3.2
+  orientation 0.7431 0.3078 0.5944 1.2169
+  position 3.4 -3.4 3.4
 }
 
 Background {
@@ -605,7 +605,7 @@ DEF RAMP_RAIL_E Solid {
 }
 
 DEF BRIDGE Solid {
-  translation 1.4 0.0 0.29
+  translation 1.4 0.1 0.29
   children [
     Shape {
       appearance PBRAppearance {
@@ -614,18 +614,18 @@ DEF BRIDGE Solid {
         metalness 0
       }
       geometry Box {
-        size 0.5 0.6 0.02
+        size 0.5 0.8 0.02
       }
     }
   ]
   boundingObject Box {
-    size 0.5 0.6 0.02
+    size 0.5 0.8 0.02
   }
   name "bridge"
 }
 
 DEF BRIDGE_RAIL_E Solid {
-  translation 1.66 0.0 0.33999999999999997
+  translation 1.66 0.1 0.33999999999999997
   children [
     Shape {
       appearance PBRAppearance {
@@ -634,18 +634,18 @@ DEF BRIDGE_RAIL_E Solid {
         metalness 0
       }
       geometry Box {
-        size 0.02 0.6 0.08
+        size 0.02 0.8 0.08
       }
     }
   ]
   boundingObject Box {
-    size 0.02 0.6 0.08
+    size 0.02 0.8 0.08
   }
   name "bridge_rail_e"
 }
 
 DEF BRIDGE_RAIL_N Solid {
-  translation 1.4 0.31 0.33999999999999997
+  translation 1.4 0.51 0.33999999999999997
   children [
     Shape {
       appearance PBRAppearance {
@@ -727,7 +727,7 @@ DEF F2_W Solid {
 }
 
 DEF F2_E1 Solid {
-  translation 1.25 -0.75 0.39
+  translation 1.25 -0.5 0.39
   children [
     Shape {
       appearance PBRAppearance {
@@ -736,18 +736,18 @@ DEF F2_E1 Solid {
         metalness 0
       }
       geometry Box {
-        size 0.02 1.0 0.18
+        size 0.02 1.5 0.18
       }
     }
   ]
   boundingObject Box {
-    size 0.02 1.0 0.18
+    size 0.02 1.5 0.18
   }
   name "f2_e1"
 }
 
 DEF F2_E2 Solid {
-  translation 1.25 0.75 0.39
+  translation 1.25 1.0 0.39
   children [
     Shape {
       appearance PBRAppearance {
@@ -756,18 +756,18 @@ DEF F2_E2 Solid {
         metalness 0
       }
       geometry Box {
-        size 0.02 1.0 0.18
+        size 0.02 0.5 0.18
       }
     }
   ]
   boundingObject Box {
-    size 0.02 1.0 0.18
+    size 0.02 0.5 0.18
   }
   name "f2_e2"
 }
 
 DEF F2I_V0 Solid {
-  translation -0.75 -1.0 0.39
+  translation -0.75 -0.5 0.39
   children [
     Shape {
       appearance PBRAppearance {
@@ -787,7 +787,7 @@ DEF F2I_V0 Solid {
 }
 
 DEF F2I_V1 Solid {
-  translation -0.25 -0.5 0.39
+  translation -0.75 0.5 0.39
   children [
     Shape {
       appearance PBRAppearance {
@@ -807,7 +807,7 @@ DEF F2I_V1 Solid {
 }
 
 DEF F2I_V2 Solid {
-  translation -0.25 1.0 0.39
+  translation -0.25 -1.0 0.39
   children [
     Shape {
       appearance PBRAppearance {
@@ -827,7 +827,7 @@ DEF F2I_V2 Solid {
 }
 
 DEF F2I_V3 Solid {
-  translation 0.25 0.0 0.39
+  translation -0.25 1.0 0.39
   children [
     Shape {
       appearance PBRAppearance {
@@ -847,7 +847,7 @@ DEF F2I_V3 Solid {
 }
 
 DEF F2I_V4 Solid {
-  translation 0.25 0.5 0.39
+  translation 0.25 -0.5 0.39
   children [
     Shape {
       appearance PBRAppearance {
@@ -867,7 +867,7 @@ DEF F2I_V4 Solid {
 }
 
 DEF F2I_V5 Solid {
-  translation 0.75 -0.5 0.39
+  translation 0.25 0.5 0.39
   children [
     Shape {
       appearance PBRAppearance {
@@ -887,7 +887,7 @@ DEF F2I_V5 Solid {
 }
 
 DEF F2I_V6 Solid {
-  translation 0.75 0.0 0.39
+  translation 0.75 -1.0 0.39
   children [
     Shape {
       appearance PBRAppearance {
@@ -907,7 +907,7 @@ DEF F2I_V6 Solid {
 }
 
 DEF F2I_V7 Solid {
-  translation 0.75 0.5 0.39
+  translation 0.75 0.0 0.39
   children [
     Shape {
       appearance PBRAppearance {
@@ -926,8 +926,8 @@ DEF F2I_V7 Solid {
   name "f2i_v7"
 }
 
-DEF F2I_H8 Solid {
-  translation 0.0 -0.75 0.39
+DEF F2I_V8 Solid {
+  translation 0.75 0.5 0.39
   children [
     Shape {
       appearance PBRAppearance {
@@ -936,18 +936,18 @@ DEF F2I_H8 Solid {
         metalness 0
       }
       geometry Box {
-        size 0.54 0.02 0.18
+        size 0.02 0.54 0.18
       }
     }
   ]
   boundingObject Box {
-    size 0.54 0.02 0.18
+    size 0.02 0.54 0.18
   }
-  name "f2i_h8"
+  name "f2i_v8"
 }
 
 DEF F2I_H9 Solid {
-  translation 0.5 -0.75 0.39
+  translation -1.0 -0.75 0.39
   children [
     Shape {
       appearance PBRAppearance {
@@ -967,7 +967,7 @@ DEF F2I_H9 Solid {
 }
 
 DEF F2I_H10 Solid {
-  translation -1.0 -0.25 0.39
+  translation -0.5 -0.25 0.39
   children [
     Shape {
       appearance PBRAppearance {
@@ -987,7 +987,7 @@ DEF F2I_H10 Solid {
 }
 
 DEF F2I_H11 Solid {
-  translation -0.5 -0.25 0.39
+  translation 0.0 -0.25 0.39
   children [
     Shape {
       appearance PBRAppearance {
@@ -1007,7 +1007,7 @@ DEF F2I_H11 Solid {
 }
 
 DEF F2I_H12 Solid {
-  translation -0.5 0.25 0.39
+  translation 0.5 -0.25 0.39
   children [
     Shape {
       appearance PBRAppearance {
