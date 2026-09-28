@@ -28,6 +28,15 @@
 
 俯视布局图见 `docs/maze_layout.png`（seed=37）。
 
+## 可通行性验证 ✅
+
+本迷宫已由 GPS + IMU 循迹机器人完整实测跑通（`worlds/maze_verify.wbt`）：
+
+- 路线：起点 → BFS 最短路径（39 格）→ 终点
+- 结果：**38/38 个路点全部到达，0 次卡死，全程 171.8 秒**（2026-09-28，Webots 实测）
+- 结论：迷宫布局可通行，主路径对四轮差速小车（车宽 0.1m）完全友好
+- 复现方法：`python3 tools/make_maze_verifier.py` 生成验证资源 → Webots 打开 `maze_verify.wbt` → 运行 `maze_verifier` 控制器（GPS 定位 + IMU 航向 + 原地对转修正）
+
 ## 任务说明（给机器人组）
 
 - 目标：机器人从起点出发，自主穿越迷宫，到达橙色终点区域
