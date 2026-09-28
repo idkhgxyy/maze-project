@@ -966,6 +966,10 @@ DEF PLACEHOLDER_CAR Robot {
       translation 0 0 0.06
       name "gps"
     }
+    InertialUnit {
+      translation 0 0 0.05
+      name "imu"
+    }
     DEF CAR_BODY Shape {
       appearance PBRAppearance {
         baseColor 0.20 0.40 0.80

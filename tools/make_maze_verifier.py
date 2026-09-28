@@ -4,7 +4,7 @@
 单层迷宫验证资源生成器
 ======================
 1. 用当前迷宫（seed=37, 7×7）求起点→终点 BFS 最短路径，写入验证控制器路点；
-2. 复制 maze.wbt 生成 worlds/maze_verify.wbt：给占位机器人挂 GPS、
+2. 复制 maze.wbt 生成 worlds/maze_verify.wbt：给占位机器人挂 GPS + IMU、
    控制器换成 maze_verifier。交付用的 maze.wbt 不做任何改动。
 
 用法：python3 tools/make_maze_verifier.py
@@ -63,10 +63,9 @@ def main():
     assert path and path[0] == (0, 0) and path[-1] == (N - 1, N - 1)
     print('主路径 %d 格' % len(path))
 
-    wps, dedup = [], []
+    dedup = []
     for i, j in path:
-        wps.append(cc(i, j))
-    for w in wps:
+        w = cc(i, j)
         if not dedup or w != dedup[-1]:
             dedup.append(w)
 
@@ -84,7 +83,10 @@ def main():
     s = s.replace('controller "placeholder_car"', 'controller "maze_verifier"')
     old = '  children [\n    DEF CAR_BODY Shape {'
     new = ('  children [\n    GPS {\n      translation 0 0 0.06\n'
-           '      name "gps"\n    }\n    DEF CAR_BODY Shape {')
+           '      name "gps"\n    }\n'
+           '    InertialUnit {\n      translation 0 0 0.05\n'
+           '      name "imu"\n    }\n'
+           '    DEF CAR_BODY Shape {')
     assert old in s, 'maze.wbt 中找不到机器人 children 起点'
     s = s.replace(old, new, 1)
     dst = os.path.join(ROOT, 'worlds', 'maze_verify.wbt')

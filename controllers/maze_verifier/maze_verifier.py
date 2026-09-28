@@ -1,12 +1,19 @@
 # -*- coding: utf-8 -*-
 """
-单层迷宫验证机器人：GPS 实测位移航向，沿 BFS 最短路径自动跑完全程
-==================================================================
-控制策略与 double-deck 分支 v5 相同（传感器实测航向，无里程计推算）：
-  - 航向 est：每 0.2s 用 GPS 实测位移方向更新（位移 ≥1.2cm 才更新）
-  - 转向：w = clamp(K_YAW·e, ±YAW_MAX)，温和连续转向
-  - 脱困：3s 无进展且 1s 内位移 <3cm → 倒车 0.7s → 继续
-跑完全部路点 = 证明迷宫可通行。
+单层迷宫验证机器人 v2：IMU 航向 + 原地转向修正（bang-bang）
+==========================================================
+路线由 tools/make_maze_verifier.py 预生成（route_data.py）。
+
+为什么这样控制（黑匣子日志的结论）：
+  四轮固定底盘是滑移转向——温和的轮速差无法克服横向摩擦，
+  车身几乎不旋转（v1 教训：一路直行撞墙）。
+  因此：
+  - 航向：IMU（惯性单元）直接输出 yaw，转多少度实测多少，不受打滑影响；
+    开机自动校准：记录初始 raw 值（对应世界文件里已知的"朝东"），
+    试转 0.4s 确定 raw→航向的符号映射，不依赖任何坐标系约定。
+  - 修正：航向误差 >0.12 rad 就地原地对转修正（左右轮反转，four_wheel_car
+    已验证该方式可精确转 90°），误差小则全速直行。
+  - 定位：GPS 负责位置与到点判定。
 """
 import math
 import os
@@ -40,42 +47,42 @@ timestep = int(robot.getBasicTimeStep())
 
 gps = robot.getDevice('gps')
 gps.enable(timestep)
+imu = robot.getDevice('imu')
+imu.enable(timestep)
 
 left = [robot.getDevice('wheel1'), robot.getDevice('wheel3')]
 right = [robot.getDevice('wheel2'), robot.getDevice('wheel4')]
 for w in left + right:
     w.setPosition(float('inf'))
 
-V = 3.0         # 轮速 rad/s，线速度 0.12 m/s
-K_YAW = 2.5     # 航向比例增益
-YAW_MAX = 1.5   # 最大偏航角速度 rad/s
+V = 3.0         # 直行轮速 rad/s，线速度 0.12 m/s
+P = 2.0         # 原地修正转向的轮速 rad/s（左右反转）
+E_PIVOT = 0.12  # 航向误差超过 0.12 rad（约 7°）就原地修正
 THRESH = 0.18   # 路点到达半径 m
-TRACK = 0.12    # 轮距 m（该机器人轮距 0.12）
-GPS_DT = 0.2    # GPS 航向更新周期 s
-MOVE_MIN = 0.012    # 更新航向所需最小位移 m
-STUCK_T = 3.0       # 卡死判定 s
-STUCK_MOVE = 0.03   # 1s 内位移阈值 m
-BACK_T = 0.7        # 倒车时长 s
+STUCK_T = 3.0   # 卡死判定 s
+STUCK_MOVE = 0.03
+BACK_T = 0.7
 TIMEOUT = 600.0
-
-
-def clamp(v, lo, hi):
-    return max(lo, min(hi, v))
 
 
 def wrap(a):
     return (a + math.pi) % (2 * math.pi) - math.pi
 
 
-idx = 0
-est = 0.0            # 初始朝东（+X），与世界文件一致
+idx = 1            # 路点 0 是出发点，直接跳过
 vl_cmd = vr_cmd = 0.0
 t0 = robot.getTime()
 last_wp_t = t0
-last_gps, last_gps_t = None, t0
 pos_hist = []
 recover_t_end = None
-next_diag = 0.0      # 黑匣子：每秒记录一次完整状态
+next_diag = 0.0
+
+# ---- IMU 校准状态机 ----
+calib = 0          # 0=待记录 r0, 1=试转中, 2=完成
+r0 = None
+sign = 1
+calib_t0 = None
+tries = 0
 
 log('验证启动：%d 个路点，起点 (-1.50, -1.50) → 终点 (1.50, 1.50)'
     % len(WAYPOINTS))
@@ -84,21 +91,45 @@ while robot.step(timestep) != -1:
     now = robot.getTime()
     p = gps.getValues()
     x, y, z = p[0], p[1], p[2]
+    raw = imu.getValues()[2]
 
     if now >= next_diag:
-        log('  [t=%5.1f] pos=(%.3f, %.3f, %.3f) est=%6.1f° cmd=(%5.2f,%5.2f) wp=%d/%d'
-            % (now, x, y, z, math.degrees(est), vl_cmd, vr_cmd,
-               idx + 1, len(WAYPOINTS)))
+        log('  [t=%5.1f] pos=(%.3f, %.3f, %.3f) raw=%7.3f est=%6.1f° '
+            'cmd=(%5.2f,%5.2f) wp=%d/%d'
+            % (now, x, y, z, raw, math.degrees(est) if calib == 2 else -999,
+               vl_cmd, vr_cmd, idx + 1, len(WAYPOINTS)))
         next_diag = now + 1.0
 
-    # ---- GPS 航向更新（倒车期间不更新）----
-    if recover_t_end is None and last_gps is not None \
-            and now - last_gps_t >= GPS_DT:
-        dx, dy = x - last_gps[0], y - last_gps[1]
-        if math.hypot(dx, dy) >= MOVE_MIN:
-            est = math.atan2(dy, dx)
-    if last_gps is None or now - last_gps_t >= GPS_DT:
-        last_gps, last_gps_t = (x, y), now
+    # ---- IMU 校准：试转 0.4s 确定 raw→航向 的符号 ----
+    if calib == 0:
+        r0 = raw
+        calib = 1
+        calib_t0 = now
+        log('IMU 校准开始：r0=%.3f，原地试转 0.4s' % r0)
+    if calib == 1:
+        vl_cmd, vr_cmd = -V, V      # 左轮后退、右轮前进 = 逆时针
+        if now - calib_t0 >= 0.4:
+            delta = wrap(raw - r0)
+            if abs(delta) > 0.2:
+                sign = 1 if delta > 0 else -1
+                calib = 2
+                log('IMU 校准完成：Δraw=%.3f → sign=%+d' % (delta, sign))
+            else:
+                tries += 1
+                if tries >= 3:
+                    sign = 1
+                    calib = 2
+                    log('IMU 校准 3 次未检出旋转，默认 sign=+1')
+                else:
+                    calib_t0 = now
+                    log('IMU 试转未检出（Δ=%.3f），重试 %d' % (delta, tries + 1))
+        left[0].setVelocity(vl_cmd)
+        left[1].setVelocity(vl_cmd)
+        right[0].setVelocity(vr_cmd)
+        right[1].setVelocity(vr_cmd)
+        continue
+
+    est = wrap(sign * wrap(raw - r0))
 
     # ---- 终点 / 超时 ----
     if idx >= len(WAYPOINTS):
@@ -142,11 +173,15 @@ while robot.step(timestep) != -1:
         right[1].setVelocity(vr_cmd)
         continue
 
-    # ---- 正常追踪 ----
+    # ---- bang-bang 追踪：误差大就原地修正，误差小就直行 ----
     e = wrap(math.atan2(ty - y, tx - x) - est)
-    w = clamp(K_YAW * e, -YAW_MAX, YAW_MAX)
-    vl_cmd = V - w * TRACK / 2
-    vr_cmd = V + w * TRACK / 2
+    if abs(e) > E_PIVOT:
+        if e > 0:
+            vl_cmd, vr_cmd = -P, P      # 需要左转：逆时针原地对转
+        else:
+            vl_cmd, vr_cmd = P, -P      # 需要右转：顺时针原地对转
+    else:
+        vl_cmd = vr_cmd = V
 
     left[0].setVelocity(vl_cmd)
     left[1].setVelocity(vl_cmd)
