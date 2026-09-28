@@ -208,12 +208,13 @@ def build_wbt(w1, w2, waypoints):
             0.02, round(RAMP_LEN, 4), 0.08, TEAL, rot))
     a(solid('RAMP_RAIL_E', RAMP_X + RAMP_W / 2 + 0.01, cyc, czc + 0.04,
             0.02, round(RAMP_LEN, 4), 0.08, TEAL, rot))
-    # 栈桥（顶面与楼板齐平），东/北沿加栏杆
-    a(solid('BRIDGE', 1.4, 0.1, DECK_TOP - DECK_T / 2,
-            0.5, 0.8, DECK_T, CREAM))
-    a(solid('BRIDGE_RAIL_E', 1.66, 0.1, DECK_TOP + 0.04,
-            0.02, 0.8, 0.08, TEAL))
-    a(solid('BRIDGE_RAIL_N', 1.4, 0.51, DECK_TOP + 0.04,
+    # 栈桥（顶面与楼板齐平）。南边缘必须在坡顶(y≈0.245)之后，
+    # 否则桥板悬在坡道上方，机器人爬到一半撞桥底（v3 踩过的坑）。
+    a(solid('BRIDGE', 1.4, 0.55, DECK_TOP - DECK_T / 2,
+            0.5, 0.6, DECK_T, CREAM))
+    a(solid('BRIDGE_RAIL_E', 1.66, 0.55, DECK_TOP + 0.04,
+            0.02, 0.6, 0.08, TEAL))
+    a(solid('BRIDGE_RAIL_N', 1.4, 0.86, DECK_TOP + 0.04,
             0.5, 0.02, 0.08, TEAL))
 
     a('# ===== 二层迷宫（楼板上）=====\n')

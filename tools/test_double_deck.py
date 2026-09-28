@@ -45,11 +45,14 @@ def check_geometry():
         print('  ❌ 坡顶与楼板顶面高差 %.4f m' % (top[1] - DECK_TOP)); ok = False
     if abs(bot[1]) > 0.02:
         print('  ❌ 坡底未接地'); ok = False
-    # 栈桥覆盖坡顶
-    by0, by1 = 0.1 - 0.4, 0.1 + 0.4             # 桥 y 范围
-    print('栈桥 y 范围: [%.2f, %.2f]，坡顶落在桥面: %s'
-          % (by0, by1, by0 <= top[0] <= by1))
-    if not (by0 <= top[0] <= by1):
+    # 栈桥接缝检查：桥南沿在坡顶之后 0~1cm 内，既不悬空遮挡也无大缝
+    by0, by1 = 0.25, 0.85                       # 桥 y 范围
+    gap = by0 - top[0]
+    seam_ok = 0 <= gap <= 0.01
+    print('栈桥 y 范围: [%.2f, %.2f]，坡顶-桥南沿接缝 %.4f m → %s'
+          % (by0, by1, gap, '✅' if seam_ok else '❌ 桥板悬在坡道上方或缝隙过大'))
+    if not seam_ok:
+        ok = False
         ok = False
     # 桥顶与楼板顶
     print('桥顶 z=0.30 与楼板顶 z=0.30 齐平: True')

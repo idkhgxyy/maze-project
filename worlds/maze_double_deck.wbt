@@ -602,7 +602,7 @@ DEF RAMP_RAIL_E Solid {
 }
 
 DEF BRIDGE Solid {
-  translation 1.4 0.1 0.29
+  translation 1.4 0.55 0.29
   children [
     Shape {
       appearance PBRAppearance {
@@ -611,18 +611,18 @@ DEF BRIDGE Solid {
         metalness 0
       }
       geometry Box {
-        size 0.5 0.8 0.02
+        size 0.5 0.6 0.02
       }
     }
   ]
   boundingObject Box {
-    size 0.5 0.8 0.02
+    size 0.5 0.6 0.02
   }
   name "bridge"
 }
 
 DEF BRIDGE_RAIL_E Solid {
-  translation 1.66 0.1 0.33999999999999997
+  translation 1.66 0.55 0.33999999999999997
   children [
     Shape {
       appearance PBRAppearance {
@@ -631,18 +631,18 @@ DEF BRIDGE_RAIL_E Solid {
         metalness 0
       }
       geometry Box {
-        size 0.02 0.8 0.08
+        size 0.02 0.6 0.08
       }
     }
   ]
   boundingObject Box {
-    size 0.02 0.8 0.08
+    size 0.02 0.6 0.08
   }
   name "bridge_rail_e"
 }
 
 DEF BRIDGE_RAIL_N Solid {
-  translation 1.4 0.51 0.33999999999999997
+  translation 1.4 0.86 0.33999999999999997
   children [
     Shape {
       appearance PBRAppearance {

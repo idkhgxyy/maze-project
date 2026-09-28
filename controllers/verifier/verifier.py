@@ -20,6 +20,25 @@ from controller import Robot
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 from route_data import WAYPOINTS
 
+# 日志：同时写文件，方便不开控制台也能诊断
+LOG_PATH = os.path.join(os.path.dirname(os.path.dirname(
+    os.path.dirname(os.path.abspath(__file__)))), 'verifier_log.txt')
+
+
+def log(msg):
+    print(msg)
+    try:
+        with open(LOG_PATH, 'a', encoding='utf-8') as f:
+            f.write(msg + '\n')
+    except OSError:
+        pass
+
+
+try:
+    open(LOG_PATH, 'w').close()   # 每次启动清空旧日志
+except OSError:
+    pass
+
 robot = Robot()
 timestep = int(robot.getBasicTimeStep())
 dt = timestep / 1000.0
@@ -53,7 +72,7 @@ est = 0.0            # 初始朝东（+X），与世界文件一致
 vl_cmd = vr_cmd = 0.0
 t0 = robot.getTime()
 
-print('验证机器人启动：共 %d 个路点' % len(WAYPOINTS))
+log('验证机器人启动：共 %d 个路点' % len(WAYPOINTS))
 
 while robot.step(timestep) != -1:
     # 里程计航向：用上一步指令轮速差积分
@@ -65,21 +84,21 @@ while robot.step(timestep) != -1:
     if idx >= len(WAYPOINTS):
         for w in left + right:
             w.setVelocity(0.0)
-        print('✅ 验证通过：到达二层终点！全程用时 %.1f 秒'
+        log('✅ 验证通过：到达二层终点！全程用时 %.1f 秒'
               % (robot.getTime() - t0))
         break
 
     if robot.getTime() - t0 > TIMEOUT:
         for w in left + right:
             w.setVelocity(0.0)
-        print('❌ 超时未完成：卡在路点 %d/%d (%.2f, %.2f)'
+        log('❌ 超时未完成：卡在路点 %d/%d (%.2f, %.2f)'
               % (idx + 1, len(WAYPOINTS), x, y))
         break
 
     tx, ty = WAYPOINTS[idx]
     d = math.hypot(tx - x, ty - y)
     if d < THRESH:
-        print('  路点 %d/%d ✓  (%.2f, %.2f)' % (idx + 1, len(WAYPOINTS), tx, ty))
+        log('  路点 %d/%d ✓  (%.2f, %.2f)' % (idx + 1, len(WAYPOINTS), tx, ty))
         idx += 1
         continue
 
