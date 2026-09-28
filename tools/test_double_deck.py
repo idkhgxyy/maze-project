@@ -63,32 +63,42 @@ def check_geometry():
 
 
 def simulate():
-    print('==== 控制器仿真（理想差速 + GPS）====')
-    V, K_YAW, YAW_MAX, THRESH, TRACK = 2.5, 3.0, 2.0, 0.18, 0.15
+    print('==== 控制器仿真（差速打滑 60% 偏航效率 + GPS 航向，模拟 v5）====')
+    V, K_YAW, YAW_MAX, THRESH, TRACK = 2.5, 2.5, 1.5, 0.18, 0.15
     R_WHEEL, DT = 0.04, 0.016
+    YAW_EFF = 0.6          # 滑移：实际偏航只有指令的 60%
+    GPS_DT, MOVE_MIN = 0.2, 0.012
     x, y, th = -1.0, -1.0, 0.0
     idx, vl, vr = 0, 0.0, 0.0
     t = 0.0
+    est = 0.0              # 控制器眼中的航向（GPS 实测）
+    last_upd, lx, ly = 0.0, x, y
     on_ramp = lambda yy: RAMP_Y0 - 0.05 <= yy <= RAMP_Y0 + RUN
     while idx < len(WAYPOINTS) and t < 600:
-        th += (vr - vl) / TRACK * DT
-        # 理想运动学（坡上 x,y 前进按坡度折减）
+        # 真实运动学：偏航受打滑折减
+        th += (vr - vl) / TRACK * DT * YAW_EFF
         v = (vl + vr) / 2 * R_WHEEL
         if on_ramp(y):
             v *= math.cos(RAMP_ANG)
         x += v * math.cos(th) * DT
         y += v * math.sin(th) * DT
         t += DT
+        # 控制器：每 GPS_DT 用实测位移更新航向
+        if t - last_upd >= GPS_DT:
+            if math.hypot(x - lx, y - ly) >= MOVE_MIN:
+                est = math.atan2(y - ly, x - lx)
+            last_upd, lx, ly = t, x, y
         tx, ty_ = WAYPOINTS[idx]
         if math.hypot(tx - x, ty_ - y) < THRESH:
             idx += 1
             continue
-        e = (math.atan2(ty_ - y, tx - x) - th + math.pi) % (2 * math.pi) - math.pi
+        e = (math.atan2(ty_ - y, tx - x) - est + math.pi) % (2 * math.pi) - math.pi
         w = max(-YAW_MAX, min(YAW_MAX, K_YAW * e))
         vl = V - w * TRACK / 2
         vr = V + w * TRACK / 2
     if idx >= len(WAYPOINTS):
-        print('✅ 仿真通过：%d 个路点全部到达，预估用时 %.0f 秒' % (len(WAYPOINTS), t))
+        print('✅ 仿真通过（含 40%% 偏航打滑）：%d 个路点全部到达，预估用时 %.0f 秒'
+              % (len(WAYPOINTS), t))
         return True
     tx, ty_ = WAYPOINTS[idx]
     print('❌ 仿真失败：600s 卡在路点 %d/%d，位置 (%.2f, %.2f)'
