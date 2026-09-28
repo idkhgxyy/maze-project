@@ -19,7 +19,7 @@ DEF FLOOR Solid {
   children [
     DEF FLOOR_SHAPE Shape {
       appearance PBRAppearance {
-        baseColor 0.45 0.45 0.48
+        baseColor 0.92 0.88 0.82
         roughness 1
         metalness 0
       }
@@ -74,7 +74,7 @@ DEF WALL_1 Solid {
   children [
     Shape {
       appearance PBRAppearance {
-        baseColor 0.20 0.35 0.60
+        baseColor 0.18 0.43 0.42
         roughness 1
         metalness 0
       }
@@ -94,7 +94,7 @@ DEF WALL_2 Solid {
   children [
     Shape {
       appearance PBRAppearance {
-        baseColor 0.20 0.35 0.60
+        baseColor 0.18 0.43 0.42
         roughness 1
         metalness 0
       }
@@ -114,7 +114,7 @@ DEF WALL_3 Solid {
   children [
     Shape {
       appearance PBRAppearance {
-        baseColor 0.20 0.35 0.60
+        baseColor 0.18 0.43 0.42
         roughness 1
         metalness 0
       }
@@ -134,7 +134,7 @@ DEF WALL_4 Solid {
   children [
     Shape {
       appearance PBRAppearance {
-        baseColor 0.20 0.35 0.60
+        baseColor 0.18 0.43 0.42
         roughness 1
         metalness 0
       }
@@ -154,7 +154,7 @@ DEF WALL_5 Solid {
   children [
     Shape {
       appearance PBRAppearance {
-        baseColor 0.20 0.35 0.60
+        baseColor 0.18 0.43 0.42
         roughness 1
         metalness 0
       }
@@ -174,7 +174,7 @@ DEF WALL_6 Solid {
   children [
     Shape {
       appearance PBRAppearance {
-        baseColor 0.20 0.35 0.60
+        baseColor 0.18 0.43 0.42
         roughness 1
         metalness 0
       }
@@ -194,7 +194,7 @@ DEF WALL_7 Solid {
   children [
     Shape {
       appearance PBRAppearance {
-        baseColor 0.20 0.35 0.60
+        baseColor 0.18 0.43 0.42
         roughness 1
         metalness 0
       }
@@ -214,7 +214,7 @@ DEF WALL_8 Solid {
   children [
     Shape {
       appearance PBRAppearance {
-        baseColor 0.20 0.35 0.60
+        baseColor 0.18 0.43 0.42
         roughness 1
         metalness 0
       }
@@ -234,7 +234,7 @@ DEF WALL_9 Solid {
   children [
     Shape {
       appearance PBRAppearance {
-        baseColor 0.20 0.35 0.60
+        baseColor 0.18 0.43 0.42
         roughness 1
         metalness 0
       }
@@ -254,7 +254,7 @@ DEF WALL_10 Solid {
   children [
     Shape {
       appearance PBRAppearance {
-        baseColor 0.20 0.35 0.60
+        baseColor 0.18 0.43 0.42
         roughness 1
         metalness 0
       }
@@ -274,7 +274,7 @@ DEF WALL_11 Solid {
   children [
     Shape {
       appearance PBRAppearance {
-        baseColor 0.20 0.35 0.60
+        baseColor 0.18 0.43 0.42
         roughness 1
         metalness 0
       }
@@ -294,7 +294,7 @@ DEF WALL_12 Solid {
   children [
     Shape {
       appearance PBRAppearance {
-        baseColor 0.20 0.35 0.60
+        baseColor 0.18 0.43 0.42
         roughness 1
         metalness 0
       }
@@ -314,7 +314,7 @@ DEF WALL_13 Solid {
   children [
     Shape {
       appearance PBRAppearance {
-        baseColor 0.20 0.35 0.60
+        baseColor 0.18 0.43 0.42
         roughness 1
         metalness 0
       }
@@ -334,7 +334,7 @@ DEF WALL_14 Solid {
   children [
     Shape {
       appearance PBRAppearance {
-        baseColor 0.20 0.35 0.60
+        baseColor 0.18 0.43 0.42
         roughness 1
         metalness 0
       }
@@ -354,7 +354,7 @@ DEF WALL_15 Solid {
   children [
     Shape {
       appearance PBRAppearance {
-        baseColor 0.20 0.35 0.60
+        baseColor 0.18 0.43 0.42
         roughness 1
         metalness 0
       }
@@ -374,7 +374,7 @@ DEF WALL_16 Solid {
   children [
     Shape {
       appearance PBRAppearance {
-        baseColor 0.20 0.35 0.60
+        baseColor 0.18 0.43 0.42
         roughness 1
         metalness 0
       }
@@ -394,7 +394,7 @@ DEF WALL_17 Solid {
   children [
     Shape {
       appearance PBRAppearance {
-        baseColor 0.20 0.35 0.60
+        baseColor 0.18 0.43 0.42
         roughness 1
         metalness 0
       }
@@ -414,7 +414,7 @@ DEF WALL_18 Solid {
   children [
     Shape {
       appearance PBRAppearance {
-        baseColor 0.20 0.35 0.60
+        baseColor 0.18 0.43 0.42
         roughness 1
         metalness 0
       }
@@ -434,7 +434,7 @@ DEF WALL_19 Solid {
   children [
     Shape {
       appearance PBRAppearance {
-        baseColor 0.20 0.35 0.60
+        baseColor 0.18 0.43 0.42
         roughness 1
         metalness 0
       }
@@ -454,7 +454,7 @@ DEF WALL_20 Solid {
   children [
     Shape {
       appearance PBRAppearance {
-        baseColor 0.20 0.35 0.60
+        baseColor 0.18 0.43 0.42
         roughness 1
         metalness 0
       }
@@ -474,7 +474,7 @@ DEF WALL_21 Solid {
   children [
     Shape {
       appearance PBRAppearance {
-        baseColor 0.20 0.35 0.60
+        baseColor 0.18 0.43 0.42
         roughness 1
         metalness 0
       }
@@ -494,7 +494,7 @@ DEF WALL_22 Solid {
   children [
     Shape {
       appearance PBRAppearance {
-        baseColor 0.20 0.35 0.60
+        baseColor 0.18 0.43 0.42
         roughness 1
         metalness 0
       }
@@ -514,7 +514,7 @@ DEF WALL_23 Solid {
   children [
     Shape {
       appearance PBRAppearance {
-        baseColor 0.20 0.35 0.60
+        baseColor 0.18 0.43 0.42
         roughness 1
         metalness 0
       }
@@ -534,7 +534,7 @@ DEF WALL_24 Solid {
   children [
     Shape {
       appearance PBRAppearance {
-        baseColor 0.20 0.35 0.60
+        baseColor 0.18 0.43 0.42
         roughness 1
         metalness 0
       }
@@ -554,7 +554,7 @@ DEF WALL_25 Solid {
   children [
     Shape {
       appearance PBRAppearance {
-        baseColor 0.20 0.35 0.60
+        baseColor 0.18 0.43 0.42
         roughness 1
         metalness 0
       }
@@ -574,7 +574,7 @@ DEF WALL_26 Solid {
   children [
     Shape {
       appearance PBRAppearance {
-        baseColor 0.20 0.35 0.60
+        baseColor 0.18 0.43 0.42
         roughness 1
         metalness 0
       }
@@ -594,7 +594,7 @@ DEF WALL_27 Solid {
   children [
     Shape {
       appearance PBRAppearance {
-        baseColor 0.20 0.35 0.60
+        baseColor 0.18 0.43 0.42
         roughness 1
         metalness 0
       }
@@ -614,7 +614,7 @@ DEF WALL_28 Solid {
   children [
     Shape {
       appearance PBRAppearance {
-        baseColor 0.20 0.35 0.60
+        baseColor 0.18 0.43 0.42
         roughness 1
         metalness 0
       }
@@ -634,7 +634,7 @@ DEF WALL_29 Solid {
   children [
     Shape {
       appearance PBRAppearance {
-        baseColor 0.20 0.35 0.60
+        baseColor 0.18 0.43 0.42
         roughness 1
         metalness 0
       }
@@ -654,7 +654,7 @@ DEF WALL_30 Solid {
   children [
     Shape {
       appearance PBRAppearance {
-        baseColor 0.20 0.35 0.60
+        baseColor 0.18 0.43 0.42
         roughness 1
         metalness 0
       }
@@ -674,7 +674,7 @@ DEF WALL_31 Solid {
   children [
     Shape {
       appearance PBRAppearance {
-        baseColor 0.20 0.35 0.60
+        baseColor 0.18 0.43 0.42
         roughness 1
         metalness 0
       }
@@ -694,7 +694,7 @@ DEF WALL_32 Solid {
   children [
     Shape {
       appearance PBRAppearance {
-        baseColor 0.20 0.35 0.60
+        baseColor 0.18 0.43 0.42
         roughness 1
         metalness 0
       }
@@ -714,7 +714,7 @@ DEF WALL_33 Solid {
   children [
     Shape {
       appearance PBRAppearance {
-        baseColor 0.20 0.35 0.60
+        baseColor 0.18 0.43 0.42
         roughness 1
         metalness 0
       }
@@ -734,7 +734,7 @@ DEF WALL_34 Solid {
   children [
     Shape {
       appearance PBRAppearance {
-        baseColor 0.20 0.35 0.60
+        baseColor 0.18 0.43 0.42
         roughness 1
         metalness 0
       }
@@ -754,7 +754,7 @@ DEF WALL_35 Solid {
   children [
     Shape {
       appearance PBRAppearance {
-        baseColor 0.20 0.35 0.60
+        baseColor 0.18 0.43 0.42
         roughness 1
         metalness 0
       }
@@ -774,7 +774,7 @@ DEF WALL_36 Solid {
   children [
     Shape {
       appearance PBRAppearance {
-        baseColor 0.20 0.35 0.60
+        baseColor 0.18 0.43 0.42
         roughness 1
         metalness 0
       }
@@ -794,7 +794,7 @@ DEF WALL_37 Solid {
   children [
     Shape {
       appearance PBRAppearance {
-        baseColor 0.20 0.35 0.60
+        baseColor 0.18 0.43 0.42
         roughness 1
         metalness 0
       }
@@ -814,7 +814,7 @@ DEF WALL_38 Solid {
   children [
     Shape {
       appearance PBRAppearance {
-        baseColor 0.20 0.35 0.60
+        baseColor 0.18 0.43 0.42
         roughness 1
         metalness 0
       }
@@ -834,7 +834,7 @@ DEF WALL_39 Solid {
   children [
     Shape {
       appearance PBRAppearance {
-        baseColor 0.20 0.35 0.60
+        baseColor 0.18 0.43 0.42
         roughness 1
         metalness 0
       }
@@ -854,7 +854,7 @@ DEF WALL_40 Solid {
   children [
     Shape {
       appearance PBRAppearance {
-        baseColor 0.20 0.35 0.60
+        baseColor 0.18 0.43 0.42
         roughness 1
         metalness 0
       }
@@ -876,7 +876,7 @@ DEF OBSTACLE_1 Solid {
   children [
     Shape {
       appearance PBRAppearance {
-        baseColor 0.85 0.2 0.2
+        baseColor 0.8 0.3 0.35
         roughness 1
         metalness 0
       }
@@ -896,7 +896,7 @@ DEF OBSTACLE_2 Solid {
   children [
     Shape {
       appearance PBRAppearance {
-        baseColor 0.2 0.5 0.85
+        baseColor 0.25 0.5 0.75
         roughness 1
         metalness 0
       }
@@ -916,7 +916,7 @@ DEF OBSTACLE_3 Solid {
   children [
     Shape {
       appearance PBRAppearance {
-        baseColor 0.6 0.2 0.8
+        baseColor 0.55 0.4 0.75
         roughness 1
         metalness 0
       }
@@ -936,7 +936,7 @@ DEF OBSTACLE_4 Solid {
   children [
     Shape {
       appearance PBRAppearance {
-        baseColor 0.1 0.7 0.6
+        baseColor 0.9 0.65 0.2
         roughness 1
         metalness 0
       }

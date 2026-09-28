@@ -35,12 +35,12 @@ HALF = N * CELL / 2.0        # 场地半宽 = 1.25 m
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 OBSTACLE_COLORS = [
-    (0.85, 0.20, 0.20),
-    (0.20, 0.50, 0.85),
-    (0.60, 0.20, 0.80),
-    (0.10, 0.70, 0.60),
-    (0.90, 0.60, 0.10),
-    (0.45, 0.45, 0.50),
+    (0.80, 0.30, 0.35),   # 莓红
+    (0.25, 0.50, 0.75),   # 海蓝
+    (0.55, 0.40, 0.75),   # 紫罗兰
+    (0.90, 0.65, 0.20),   # 琥珀
+    (0.20, 0.65, 0.60),   # 松石绿
+    (0.45, 0.50, 0.55),   # 岩灰
 ]
 OBST_SIZE = 0.15   # 障碍物边长 m
 
@@ -147,7 +147,7 @@ def build_wbt(walls, dead_ends, rng):
   children [
     DEF FLOOR_SHAPE Shape {
       appearance PBRAppearance {
-        baseColor 0.45 0.45 0.48
+        baseColor 0.92 0.88 0.82
         roughness 1
         metalness 0
       }
@@ -177,7 +177,7 @@ def build_wbt(walls, dead_ends, rng):
           % (defname, x, y, color[0], color[1], color[2],
              CELL, CELL, label))
 
-    # 迷宫墙
+    # 迷宫墙（%d 段）
     a('# 迷宫墙（%d 段）\n' % len(segs))
     for k, (x, y, kind, length) in enumerate(segs):
         if kind == 'V':
@@ -189,7 +189,7 @@ def build_wbt(walls, dead_ends, rng):
   children [
     Shape {
       appearance PBRAppearance {
-        baseColor 0.20 0.35 0.60
+        baseColor 0.18 0.43 0.42
         roughness 1
         metalness 0
       }
@@ -377,7 +377,7 @@ def draw_layout_png(walls, dead_ends, seed, out_path):
     sx0, sy0 = cell_center(0, 0)
     fx0, fy0 = cell_center(N - 1, N - 1)
     ax.add_patch(Rectangle((-HALF, -HALF), 2 * HALF, 2 * HALF,
-                           facecolor='#e8e8ec', edgecolor='none'))
+                           facecolor='#ece4d6', edgecolor='none'))
     ax.add_patch(Rectangle((sx0 - CELL / 2, sy0 - CELL / 2), CELL, CELL,
                            facecolor='#b7e8c0', edgecolor='none'))
     ax.add_patch(Rectangle((fx0 - CELL / 2, fy0 - CELL / 2), CELL, CELL,
@@ -398,11 +398,11 @@ def draw_layout_png(walls, dead_ends, seed, out_path):
         if kind == 'V':
             ax.add_patch(Rectangle((x - WALL_T / 2, y - length / 2),
                                    WALL_T, length,
-                                   facecolor='#33518f', edgecolor='none'))
+                                   facecolor='#2e6e6a', edgecolor='none'))
         else:
             ax.add_patch(Rectangle((x - length / 2, y - WALL_T / 2),
                                    length, WALL_T,
-                                   facecolor='#33518f', edgecolor='none'))
+                                   facecolor='#2e6e6a', edgecolor='none'))
 
     # 占位机器人（起点，车头朝东）
     rx, ry = cell_center(0, 0)
