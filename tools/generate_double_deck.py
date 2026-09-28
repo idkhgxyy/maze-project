@@ -163,8 +163,7 @@ def build_wbt(w1, w2, waypoints):
     a = lines.append
     a('#VRML_SIM R2023b utf8\n')
     a('WorldInfo {\n  basicTimeStep 16\n}\n')
-    a('Viewpoint {\n  orientation 0.7431 0.3078 0.5944 1.2169\n'
-      '  position 3.4 -3.4 3.4\n}\n')
+    a('# 不写 Viewpoint：Webots 使用内置默认视角，用鼠标拖拽调整即可\n')
     a('Background {\n  skyColor [ 0.78 0.84 0.88 ]\n}\n')
     a('DirectionalLight {\n  direction -0.4 0.4 -1\n  intensity 1.4\n'
       '  ambientIntensity 0.4\n}\n')

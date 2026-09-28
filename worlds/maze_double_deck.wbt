@@ -4,10 +4,7 @@ WorldInfo {
   basicTimeStep 16
 }
 
-Viewpoint {
-  orientation 0.7431 0.3078 0.5944 1.2169
-  position 3.4 -3.4 3.4
-}
+# 不写 Viewpoint：Webots 使用内置默认视角，用鼠标拖拽调整即可
 
 Background {
   skyColor [ 0.78 0.84 0.88 ]
