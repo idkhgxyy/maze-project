@@ -94,8 +94,12 @@ def pick_floor(seed_from, start, goal):
     raise RuntimeError('找不到合适种子')
 
 
-def solid(name, x, y, z, sx, sy, sz, color, rot=None):
+def solid(name, x, y, z, sx, sy, sz, color, rot=None, collide=True):
     r = ('  rotation %s\n' % rot) if rot else ''
+    b = ('''  boundingObject Box {
+    size %s %s %s
+  }
+''' % (sx, sy, sz)) if collide else ''
     return ('''DEF %s Solid {
   translation %s %s %s
 %s  children [
@@ -110,13 +114,10 @@ def solid(name, x, y, z, sx, sy, sz, color, rot=None):
       }
     }
   ]
-  boundingObject Box {
-    size %s %s %s
-  }
-  name "%s"
+%s  name "%s"
 }
 ''' % (name, x, y, z, r, color[0], color[1], color[2],
-       sx, sy, sz, sx, sy, sz, name.lower()))
+       sx, sy, sz, b, name.lower()))
 
 
 def internal_walls(walls, zc, tag):
@@ -199,15 +200,20 @@ def build_wbt(w1, w2, waypoints):
             k += 1
             a(solid('COLUMN_%d' % k, cx, cy, (DECK_TOP - DECK_T) / 2,
                     0.08, 0.08, DECK_TOP - DECK_T, GRAY))
-    # 斜坡（绕 X 轴抬升 RAMP_ANG，坡面从 (1.5,-0.95,0) 到 (1.5,0.25,0.30)）
+    # 斜坡：上表面从 (1.5,-0.95,0) 到 (1.5,0.25,0.30)；
+    # 护栏沿坡面法向对齐，端面与坡道端面平齐
     rot = '1 0 0 %s' % round(RAMP_ANG, 4)
-    cyc, czc = RAMP_Y0 + RUN / 2, RISE / 2
-    a(solid('RAMP', RAMP_X, cyc - 0.003, czc - 0.0097,
-            RAMP_W, round(RAMP_LEN, 4), DECK_T, CREAM, rot))
-    a(solid('RAMP_RAIL_W', RAMP_X - RAMP_W / 2 - 0.01, cyc, czc + 0.04,
-            0.02, round(RAMP_LEN, 4), 0.08, TEAL, rot))
-    a(solid('RAMP_RAIL_E', RAMP_X + RAMP_W / 2 + 0.01, cyc, czc + 0.04,
-            0.02, round(RAMP_LEN, 4), 0.08, TEAL, rot))
+    nrm_y, nrm_z = -math.sin(RAMP_ANG), math.cos(RAMP_ANG)
+    RT = 0.04                                    # 坡道厚
+    sf_y, sf_z = RAMP_Y0 + RUN / 2, RISE / 2     # 上表面中点
+    a(solid('RAMP', RAMP_X, round(sf_y - nrm_y * RT / 2, 4),
+            round(sf_z - nrm_z * RT / 2, 4),
+            RAMP_W, round(RAMP_LEN, 4), RT, CREAM, rot))
+    rl_y, rl_z = sf_y + nrm_y * (RT / 2 + 0.04), sf_z + nrm_z * (RT / 2 + 0.04)
+    a(solid('RAMP_RAIL_W', RAMP_X - RAMP_W / 2 - 0.01, round(rl_y, 4),
+            round(rl_z, 4), 0.02, round(RAMP_LEN, 4), 0.08, TEAL, rot))
+    a(solid('RAMP_RAIL_E', RAMP_X + RAMP_W / 2 + 0.01, round(rl_y, 4),
+            round(rl_z, 4), 0.02, round(RAMP_LEN, 4), 0.08, TEAL, rot))
     # 栈桥（顶面与楼板齐平）。南边缘必须在坡顶(y≈0.245)之后，
     # 否则桥板悬在坡道上方，机器人爬到一半撞桥底（v3 踩过的坑）。
     a(solid('BRIDGE', 1.4, 0.55, DECK_TOP - DECK_T / 2,
@@ -221,7 +227,7 @@ def build_wbt(w1, w2, waypoints):
     a(solid('GATE_STOPPER', 1.9, -0.9, WALL_H / 2,
             WALL_T, 0.7, WALL_H, TEAL))
     a(solid('TURN_PAD', 1.5, -1.0, 0.001,
-            0.35, 0.3, 0.002, (1.0, 0.85, 0.2)))
+            0.35, 0.3, 0.002, (1.0, 0.85, 0.2), collide=False))
 
     a('# ===== 二层迷宫（楼板上）=====\n')
     for s in outer_walls(2, 'F2') + internal_walls(w2, DECK_TOP + WALL_H / 2, 'F2I'):
@@ -281,13 +287,13 @@ def build_wbt(w1, w2, waypoints):
         metalness 0
       }
       geometry Box {
-        size 0.18 0.14 0.05
+        size 0.18 0.12 0.05
       }
     }
     DEF W1 HingeJoint {
       jointParameters HingeJointParameters {
         axis 0 1 0
-        anchor 0.06 0.07 0
+        anchor 0.06 0.075 0
       }
       device [
         RotationalMotor {
@@ -296,7 +302,7 @@ def build_wbt(w1, w2, waypoints):
         }
       ]
       endPoint Solid {
-        translation 0.06 0.07 0
+        translation 0.06 0.075 0
         rotation 1 0 0 1.5708
         children [
           DEF WHEEL Shape {
@@ -320,7 +326,7 @@ def build_wbt(w1, w2, waypoints):
     DEF W2 HingeJoint {
       jointParameters HingeJointParameters {
         axis 0 1 0
-        anchor 0.06 -0.07 0
+        anchor 0.06 -0.075 0
       }
       device [
         RotationalMotor {
@@ -329,7 +335,7 @@ def build_wbt(w1, w2, waypoints):
         }
       ]
       endPoint Solid {
-        translation 0.06 -0.07 0
+        translation 0.06 -0.075 0
         rotation 1 0 0 1.5708
         children [
           USE WHEEL
@@ -343,7 +349,7 @@ def build_wbt(w1, w2, waypoints):
     DEF W3 HingeJoint {
       jointParameters HingeJointParameters {
         axis 0 1 0
-        anchor -0.06 0.07 0
+        anchor -0.06 0.075 0
       }
       device [
         RotationalMotor {
@@ -352,7 +358,7 @@ def build_wbt(w1, w2, waypoints):
         }
       ]
       endPoint Solid {
-        translation -0.06 0.07 0
+        translation -0.06 0.075 0
         rotation 1 0 0 1.5708
         children [
           USE WHEEL
@@ -366,7 +372,7 @@ def build_wbt(w1, w2, waypoints):
     DEF W4 HingeJoint {
       jointParameters HingeJointParameters {
         axis 0 1 0
-        anchor -0.06 -0.07 0
+        anchor -0.06 -0.075 0
       }
       device [
         RotationalMotor {
@@ -375,7 +381,7 @@ def build_wbt(w1, w2, waypoints):
         }
       ]
       endPoint Solid {
-        translation -0.06 -0.07 0
+        translation -0.06 -0.075 0
         rotation 1 0 0 1.5708
         children [
           USE WHEEL

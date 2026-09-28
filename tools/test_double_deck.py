@@ -64,7 +64,7 @@ def check_geometry():
 
 def simulate():
     print('==== 控制器仿真（理想差速 + GPS）====')
-    V, K_YAW, YAW_MAX, THRESH, TRACK = 2.5, 3.0, 2.0, 0.18, 0.14
+    V, K_YAW, YAW_MAX, THRESH, TRACK = 2.5, 3.0, 2.0, 0.18, 0.15
     R_WHEEL, DT = 0.04, 0.016
     x, y, th = -1.0, -1.0, 0.0
     idx, vl, vr = 0, 0.0, 0.0

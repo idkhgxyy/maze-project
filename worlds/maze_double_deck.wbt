@@ -539,7 +539,7 @@ DEF COLUMN_4 Solid {
 }
 
 DEF RAMP Solid {
-  translation 1.5 -0.353 0.14029999999999998
+  translation 1.5 -0.3451 0.1306
   rotation 1 0 0 0.245
   children [
     Shape {
@@ -549,18 +549,18 @@ DEF RAMP Solid {
         metalness 0
       }
       geometry Box {
-        size 0.4 1.2369 0.02
+        size 0.4 1.2369 0.04
       }
     }
   ]
   boundingObject Box {
-    size 0.4 1.2369 0.02
+    size 0.4 1.2369 0.04
   }
   name "ramp"
 }
 
 DEF RAMP_RAIL_W Solid {
-  translation 1.29 -0.35 0.19
+  translation 1.29 -0.3646 0.2082
   rotation 1 0 0 0.245
   children [
     Shape {
@@ -581,7 +581,7 @@ DEF RAMP_RAIL_W Solid {
 }
 
 DEF RAMP_RAIL_E Solid {
-  translation 1.71 -0.35 0.19
+  translation 1.71 -0.3646 0.2082
   rotation 1 0 0 0.245
   children [
     Shape {
@@ -695,9 +695,6 @@ DEF TURN_PAD Solid {
       }
     }
   ]
-  boundingObject Box {
-    size 0.35 0.3 0.002
-  }
   name "turn_pad"
 }
 
@@ -1174,13 +1171,13 @@ DEF VERIFIER Robot {
         metalness 0
       }
       geometry Box {
-        size 0.18 0.14 0.05
+        size 0.18 0.12 0.05
       }
     }
     DEF W1 HingeJoint {
       jointParameters HingeJointParameters {
         axis 0 1 0
-        anchor 0.06 0.07 0
+        anchor 0.06 0.075 0
       }
       device [
         RotationalMotor {
@@ -1189,7 +1186,7 @@ DEF VERIFIER Robot {
         }
       ]
       endPoint Solid {
-        translation 0.06 0.07 0
+        translation 0.06 0.075 0
         rotation 1 0 0 1.5708
         children [
           DEF WHEEL Shape {
@@ -1213,7 +1210,7 @@ DEF VERIFIER Robot {
     DEF W2 HingeJoint {
       jointParameters HingeJointParameters {
         axis 0 1 0
-        anchor 0.06 -0.07 0
+        anchor 0.06 -0.075 0
       }
       device [
         RotationalMotor {
@@ -1222,7 +1219,7 @@ DEF VERIFIER Robot {
         }
       ]
       endPoint Solid {
-        translation 0.06 -0.07 0
+        translation 0.06 -0.075 0
         rotation 1 0 0 1.5708
         children [
           USE WHEEL
@@ -1236,7 +1233,7 @@ DEF VERIFIER Robot {
     DEF W3 HingeJoint {
       jointParameters HingeJointParameters {
         axis 0 1 0
-        anchor -0.06 0.07 0
+        anchor -0.06 0.075 0
       }
       device [
         RotationalMotor {
@@ -1245,7 +1242,7 @@ DEF VERIFIER Robot {
         }
       ]
       endPoint Solid {
-        translation -0.06 0.07 0
+        translation -0.06 0.075 0
         rotation 1 0 0 1.5708
         children [
           USE WHEEL
@@ -1259,7 +1256,7 @@ DEF VERIFIER Robot {
     DEF W4 HingeJoint {
       jointParameters HingeJointParameters {
         axis 0 1 0
-        anchor -0.06 -0.07 0
+        anchor -0.06 -0.075 0
       }
       device [
         RotationalMotor {
@@ -1268,7 +1265,7 @@ DEF VERIFIER Robot {
         }
       ]
       endPoint Solid {
-        translation -0.06 -0.07 0
+        translation -0.06 -0.075 0
         rotation 1 0 0 1.5708
         children [
           USE WHEEL
