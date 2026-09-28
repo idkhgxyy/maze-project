@@ -58,3 +58,16 @@ maze-project/
 ├── README.md
 └── .gitignore
 ```
+
+## 双层立体迷宫（实验分支 `double-deck`）
+
+> 以下内容仅在 `double-deck` 分支上，未合并进 main。
+
+双层 5×5 立体迷宫：一、二层各一个 DFS 迷宫（层高 0.30m），东侧外挂缓坡（≈14°）+ 栈桥连接；一层东闸口进坡，二层东闸口出。带 GPS 循迹验证机器人（`controllers/verifier`）：
+
+```bash
+python3 tools/generate_double_deck.py    # 重新生成世界 + 路线
+# Webots 打开 worlds/maze_double_deck.wbt，运行 verifier 看它自动跑全程
+```
+
+验收标准：verifier 控制台输出"✅ 验证通过"。跑通并确认难度合理后，再决定是否合并回 main 交付。
