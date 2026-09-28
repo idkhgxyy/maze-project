@@ -1,6 +1,6 @@
 # Webots 迷宫场景（maze-project）
 
-5×5 自主走迷宫挑战场地。由深度优先（DFS）算法生成，保证从起点到终点**一定有唯一主路径**，并带死胡同分支；死胡同内放置障碍方块，**主路径完全畅通**。
+7×7 自主走迷宫挑战场地。由深度优先（DFS）算法生成，保证从起点到终点**一定有唯一主路径**，并带死胡同分支；死胡同内放置障碍方块，**主路径完全畅通**。主路径约 19.5 m，按典型小车速度（0.24 m/s）加探索弯路，全程约 1.5~2 分钟。
 
 ## 环境要求
 
@@ -18,15 +18,15 @@
 
 | 项目 | 数值 |
 |---|---|
-| 格子 | 5×5 |
+| 格子 | 7×7 |
 | 通道宽 | 0.5 m |
-| 场地 | 2.5 × 2.5 m |
+| 场地 | 3.5 × 3.5 m |
 | 墙高 / 墙厚 | 0.2 m / 0.02 m |
 | 障碍方块 | 0.15 m，只放在死胡同 |
 | 起点 | 左下角绿色区域，车头朝东（+X） |
 | 终点 | 右上角橙色区域，到达即完成 |
 
-俯视布局图见 `docs/maze_layout.png`（seed=9）。
+俯视布局图见 `docs/maze_layout.png`（seed=37）。
 
 ## 任务说明（给机器人组）
 
@@ -40,8 +40,9 @@
 ## 迷宫版本迭代（地图组）
 
 ```bash
-python3 tools/generate_maze.py --seed 9    # 当前版本（seed=9）
-python3 tools/generate_maze.py --seed 20   # 换种子生成新迷宫（会覆盖 worlds/maze.wbt）
+python3 tools/generate_maze.py --seed 37              # 当前版本（7×7, seed=37）
+python3 tools/generate_maze.py --seed 20              # 换种子生成新迷宫（会覆盖 worlds/maze.wbt）
+python3 tools/generate_maze.py --size 9 --seed 10     # 换规模 + 换迷宫
 ```
 
 流程：生成 → 检查 `docs/maze_layout.png` → Webots 打开验证 → git commit 记录这一版。

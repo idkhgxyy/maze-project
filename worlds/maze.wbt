@@ -24,7 +24,7 @@ DEF FLOOR Solid {
         metalness 0
       }
       geometry Plane {
-        size 4 4
+        size 5.5 5.5
       }
     }
   ]
@@ -34,7 +34,7 @@ DEF FLOOR Solid {
 }
 
 DEF START_PAD Solid {
-  translation -1.0 -1.0 0.001
+  translation -1.5 -1.5 0.001
   children [
     Shape {
       appearance PBRAppearance {
@@ -51,7 +51,7 @@ DEF START_PAD Solid {
 }
 
 DEF FINISH_PAD Solid {
-  translation 1.0 1.0 0.001
+  translation 1.5 1.5 0.001
   children [
     Shape {
       appearance PBRAppearance {
@@ -67,10 +67,10 @@ DEF FINISH_PAD Solid {
   name "终点"
 }
 
-# 迷宫墙（20 段）
+# 迷宫墙（40 段）
 
 DEF WALL_1 Solid {
-  translation 0 1.25 0.1
+  translation 0 1.75 0.1
   children [
     Shape {
       appearance PBRAppearance {
@@ -79,18 +79,18 @@ DEF WALL_1 Solid {
         metalness 0
       }
       geometry Box {
-        size 2.54 0.02 0.2
+        size 3.54 0.02 0.2
       }
     }
   ]
   boundingObject Box {
-    size 2.54 0.02 0.2
+    size 3.54 0.02 0.2
   }
   name "wall_1"
 }
 
 DEF WALL_2 Solid {
-  translation 0 -1.25 0.1
+  translation 0 -1.75 0.1
   children [
     Shape {
       appearance PBRAppearance {
@@ -99,18 +99,18 @@ DEF WALL_2 Solid {
         metalness 0
       }
       geometry Box {
-        size 2.54 0.02 0.2
+        size 3.54 0.02 0.2
       }
     }
   ]
   boundingObject Box {
-    size 2.54 0.02 0.2
+    size 3.54 0.02 0.2
   }
   name "wall_2"
 }
 
 DEF WALL_3 Solid {
-  translation 1.25 0 0.1
+  translation 1.75 0 0.1
   children [
     Shape {
       appearance PBRAppearance {
@@ -119,18 +119,18 @@ DEF WALL_3 Solid {
         metalness 0
       }
       geometry Box {
-        size 0.02 2.54 0.2
+        size 0.02 3.54 0.2
       }
     }
   ]
   boundingObject Box {
-    size 0.02 2.54 0.2
+    size 0.02 3.54 0.2
   }
   name "wall_3"
 }
 
 DEF WALL_4 Solid {
-  translation -1.25 0 0.1
+  translation -1.75 0 0.1
   children [
     Shape {
       appearance PBRAppearance {
@@ -139,18 +139,18 @@ DEF WALL_4 Solid {
         metalness 0
       }
       geometry Box {
-        size 0.02 2.54 0.2
+        size 0.02 3.54 0.2
       }
     }
   ]
   boundingObject Box {
-    size 0.02 2.54 0.2
+    size 0.02 3.54 0.2
   }
   name "wall_4"
 }
 
 DEF WALL_5 Solid {
-  translation -0.75 0.0 0.1
+  translation -1.25 -1.5 0.1
   children [
     Shape {
       appearance PBRAppearance {
@@ -170,7 +170,7 @@ DEF WALL_5 Solid {
 }
 
 DEF WALL_6 Solid {
-  translation -0.75 1.0 0.1
+  translation -1.25 -1.0 0.1
   children [
     Shape {
       appearance PBRAppearance {
@@ -190,7 +190,7 @@ DEF WALL_6 Solid {
 }
 
 DEF WALL_7 Solid {
-  translation -0.25 0.0 0.1
+  translation -1.25 0.5 0.1
   children [
     Shape {
       appearance PBRAppearance {
@@ -210,7 +210,7 @@ DEF WALL_7 Solid {
 }
 
 DEF WALL_8 Solid {
-  translation -0.25 0.5 0.1
+  translation -1.25 1.0 0.1
   children [
     Shape {
       appearance PBRAppearance {
@@ -230,7 +230,7 @@ DEF WALL_8 Solid {
 }
 
 DEF WALL_9 Solid {
-  translation 0.25 -0.5 0.1
+  translation -0.75 -1.0 0.1
   children [
     Shape {
       appearance PBRAppearance {
@@ -250,7 +250,7 @@ DEF WALL_9 Solid {
 }
 
 DEF WALL_10 Solid {
-  translation 0.75 -1.0 0.1
+  translation -0.75 -0.5 0.1
   children [
     Shape {
       appearance PBRAppearance {
@@ -270,7 +270,7 @@ DEF WALL_10 Solid {
 }
 
 DEF WALL_11 Solid {
-  translation 0.75 -0.5 0.1
+  translation -0.75 1.0 0.1
   children [
     Shape {
       appearance PBRAppearance {
@@ -290,7 +290,7 @@ DEF WALL_11 Solid {
 }
 
 DEF WALL_12 Solid {
-  translation 0.75 0.0 0.1
+  translation -0.75 1.5 0.1
   children [
     Shape {
       appearance PBRAppearance {
@@ -310,7 +310,187 @@ DEF WALL_12 Solid {
 }
 
 DEF WALL_13 Solid {
-  translation -1.0 -0.75 0.1
+  translation 0.25 -0.5 0.1
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0.20 0.35 0.60
+        roughness 1
+        metalness 0
+      }
+      geometry Box {
+        size 0.02 0.54 0.2
+      }
+    }
+  ]
+  boundingObject Box {
+    size 0.02 0.54 0.2
+  }
+  name "wall_13"
+}
+
+DEF WALL_14 Solid {
+  translation 0.25 0.5 0.1
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0.20 0.35 0.60
+        roughness 1
+        metalness 0
+      }
+      geometry Box {
+        size 0.02 0.54 0.2
+      }
+    }
+  ]
+  boundingObject Box {
+    size 0.02 0.54 0.2
+  }
+  name "wall_14"
+}
+
+DEF WALL_15 Solid {
+  translation 0.25 1.0 0.1
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0.20 0.35 0.60
+        roughness 1
+        metalness 0
+      }
+      geometry Box {
+        size 0.02 0.54 0.2
+      }
+    }
+  ]
+  boundingObject Box {
+    size 0.02 0.54 0.2
+  }
+  name "wall_15"
+}
+
+DEF WALL_16 Solid {
+  translation 0.75 -1.0 0.1
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0.20 0.35 0.60
+        roughness 1
+        metalness 0
+      }
+      geometry Box {
+        size 0.02 0.54 0.2
+      }
+    }
+  ]
+  boundingObject Box {
+    size 0.02 0.54 0.2
+  }
+  name "wall_16"
+}
+
+DEF WALL_17 Solid {
+  translation 0.75 0.0 0.1
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0.20 0.35 0.60
+        roughness 1
+        metalness 0
+      }
+      geometry Box {
+        size 0.02 0.54 0.2
+      }
+    }
+  ]
+  boundingObject Box {
+    size 0.02 0.54 0.2
+  }
+  name "wall_17"
+}
+
+DEF WALL_18 Solid {
+  translation 1.25 -1.0 0.1
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0.20 0.35 0.60
+        roughness 1
+        metalness 0
+      }
+      geometry Box {
+        size 0.02 0.54 0.2
+      }
+    }
+  ]
+  boundingObject Box {
+    size 0.02 0.54 0.2
+  }
+  name "wall_18"
+}
+
+DEF WALL_19 Solid {
+  translation 1.25 -0.5 0.1
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0.20 0.35 0.60
+        roughness 1
+        metalness 0
+      }
+      geometry Box {
+        size 0.02 0.54 0.2
+      }
+    }
+  ]
+  boundingObject Box {
+    size 0.02 0.54 0.2
+  }
+  name "wall_19"
+}
+
+DEF WALL_20 Solid {
+  translation 1.25 0.5 0.1
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0.20 0.35 0.60
+        roughness 1
+        metalness 0
+      }
+      geometry Box {
+        size 0.02 0.54 0.2
+      }
+    }
+  ]
+  boundingObject Box {
+    size 0.02 0.54 0.2
+  }
+  name "wall_20"
+}
+
+DEF WALL_21 Solid {
+  translation 1.25 1.5 0.1
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0.20 0.35 0.60
+        roughness 1
+        metalness 0
+      }
+      geometry Box {
+        size 0.02 0.54 0.2
+      }
+    }
+  ]
+  boundingObject Box {
+    size 0.02 0.54 0.2
+  }
+  name "wall_21"
+}
+
+DEF WALL_22 Solid {
+  translation -0.5 -1.25 0.1
   children [
     Shape {
       appearance PBRAppearance {
@@ -326,10 +506,70 @@ DEF WALL_13 Solid {
   boundingObject Box {
     size 0.54 0.02 0.2
   }
-  name "wall_13"
+  name "wall_22"
 }
 
-DEF WALL_14 Solid {
+DEF WALL_23 Solid {
+  translation 0.0 -1.25 0.1
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0.20 0.35 0.60
+        roughness 1
+        metalness 0
+      }
+      geometry Box {
+        size 0.54 0.02 0.2
+      }
+    }
+  ]
+  boundingObject Box {
+    size 0.54 0.02 0.2
+  }
+  name "wall_23"
+}
+
+DEF WALL_24 Solid {
+  translation 0.5 -1.25 0.1
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0.20 0.35 0.60
+        roughness 1
+        metalness 0
+      }
+      geometry Box {
+        size 0.54 0.02 0.2
+      }
+    }
+  ]
+  boundingObject Box {
+    size 0.54 0.02 0.2
+  }
+  name "wall_24"
+}
+
+DEF WALL_25 Solid {
+  translation 1.0 -1.25 0.1
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0.20 0.35 0.60
+        roughness 1
+        metalness 0
+      }
+      geometry Box {
+        size 0.54 0.02 0.2
+      }
+    }
+  ]
+  boundingObject Box {
+    size 0.54 0.02 0.2
+  }
+  name "wall_25"
+}
+
+DEF WALL_26 Solid {
   translation -0.5 -0.75 0.1
   children [
     Shape {
@@ -346,11 +586,11 @@ DEF WALL_14 Solid {
   boundingObject Box {
     size 0.54 0.02 0.2
   }
-  name "wall_14"
+  name "wall_26"
 }
 
-DEF WALL_15 Solid {
-  translation 0.0 -0.75 0.1
+DEF WALL_27 Solid {
+  translation -1.5 -0.25 0.1
   children [
     Shape {
       appearance PBRAppearance {
@@ -366,10 +606,30 @@ DEF WALL_15 Solid {
   boundingObject Box {
     size 0.54 0.02 0.2
   }
-  name "wall_15"
+  name "wall_27"
 }
 
-DEF WALL_16 Solid {
+DEF WALL_28 Solid {
+  translation -1.0 -0.25 0.1
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0.20 0.35 0.60
+        roughness 1
+        metalness 0
+      }
+      geometry Box {
+        size 0.54 0.02 0.2
+      }
+    }
+  ]
+  boundingObject Box {
+    size 0.54 0.02 0.2
+  }
+  name "wall_28"
+}
+
+DEF WALL_29 Solid {
   translation 0.0 -0.25 0.1
   children [
     Shape {
@@ -386,10 +646,70 @@ DEF WALL_16 Solid {
   boundingObject Box {
     size 0.54 0.02 0.2
   }
-  name "wall_16"
+  name "wall_29"
 }
 
-DEF WALL_17 Solid {
+DEF WALL_30 Solid {
+  translation 0.5 -0.25 0.1
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0.20 0.35 0.60
+        roughness 1
+        metalness 0
+      }
+      geometry Box {
+        size 0.54 0.02 0.2
+      }
+    }
+  ]
+  boundingObject Box {
+    size 0.54 0.02 0.2
+  }
+  name "wall_30"
+}
+
+DEF WALL_31 Solid {
+  translation 1.0 -0.25 0.1
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0.20 0.35 0.60
+        roughness 1
+        metalness 0
+      }
+      geometry Box {
+        size 0.54 0.02 0.2
+      }
+    }
+  ]
+  boundingObject Box {
+    size 0.54 0.02 0.2
+  }
+  name "wall_31"
+}
+
+DEF WALL_32 Solid {
+  translation -1.0 0.25 0.1
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0.20 0.35 0.60
+        roughness 1
+        metalness 0
+      }
+      geometry Box {
+        size 0.54 0.02 0.2
+      }
+    }
+  ]
+  boundingObject Box {
+    size 0.54 0.02 0.2
+  }
+  name "wall_32"
+}
+
+DEF WALL_33 Solid {
   translation -0.5 0.25 0.1
   children [
     Shape {
@@ -406,11 +726,11 @@ DEF WALL_17 Solid {
   boundingObject Box {
     size 0.54 0.02 0.2
   }
-  name "wall_17"
+  name "wall_33"
 }
 
-DEF WALL_18 Solid {
-  translation 0.5 0.25 0.1
+DEF WALL_34 Solid {
+  translation 0.0 0.25 0.1
   children [
     Shape {
       appearance PBRAppearance {
@@ -426,11 +746,11 @@ DEF WALL_18 Solid {
   boundingObject Box {
     size 0.54 0.02 0.2
   }
-  name "wall_18"
+  name "wall_34"
 }
 
-DEF WALL_19 Solid {
-  translation 0.0 0.75 0.1
+DEF WALL_35 Solid {
+  translation 1.5 0.25 0.1
   children [
     Shape {
       appearance PBRAppearance {
@@ -446,10 +766,30 @@ DEF WALL_19 Solid {
   boundingObject Box {
     size 0.54 0.02 0.2
   }
-  name "wall_19"
+  name "wall_35"
 }
 
-DEF WALL_20 Solid {
+DEF WALL_36 Solid {
+  translation -0.5 0.75 0.1
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0.20 0.35 0.60
+        roughness 1
+        metalness 0
+      }
+      geometry Box {
+        size 0.54 0.02 0.2
+      }
+    }
+  ]
+  boundingObject Box {
+    size 0.54 0.02 0.2
+  }
+  name "wall_36"
+}
+
+DEF WALL_37 Solid {
   translation 0.5 0.75 0.1
   children [
     Shape {
@@ -466,13 +806,73 @@ DEF WALL_20 Solid {
   boundingObject Box {
     size 0.54 0.02 0.2
   }
-  name "wall_20"
+  name "wall_37"
+}
+
+DEF WALL_38 Solid {
+  translation 1.0 0.75 0.1
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0.20 0.35 0.60
+        roughness 1
+        metalness 0
+      }
+      geometry Box {
+        size 0.54 0.02 0.2
+      }
+    }
+  ]
+  boundingObject Box {
+    size 0.54 0.02 0.2
+  }
+  name "wall_38"
+}
+
+DEF WALL_39 Solid {
+  translation 0.0 1.25 0.1
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0.20 0.35 0.60
+        roughness 1
+        metalness 0
+      }
+      geometry Box {
+        size 0.54 0.02 0.2
+      }
+    }
+  ]
+  boundingObject Box {
+    size 0.54 0.02 0.2
+  }
+  name "wall_39"
+}
+
+DEF WALL_40 Solid {
+  translation 0.5 1.25 0.1
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0.20 0.35 0.60
+        roughness 1
+        metalness 0
+      }
+      geometry Box {
+        size 0.54 0.02 0.2
+      }
+    }
+  ]
+  boundingObject Box {
+    size 0.54 0.02 0.2
+  }
+  name "wall_40"
 }
 
 # 死胡同障碍物（4 个，主路径无障碍）
 
 DEF OBSTACLE_1 Solid {
-  translation 1.0 -1.0 0.075
+  translation -0.5 -1.0 0.075
   children [
     Shape {
       appearance PBRAppearance {
@@ -492,7 +892,7 @@ DEF OBSTACLE_1 Solid {
 }
 
 DEF OBSTACLE_2 Solid {
-  translation 0.0 -0.5 0.075
+  translation 1.0 -1.0 0.075
   children [
     Shape {
       appearance PBRAppearance {
@@ -512,7 +912,7 @@ DEF OBSTACLE_2 Solid {
 }
 
 DEF OBSTACLE_3 Solid {
-  translation -0.5 0.0 0.075
+  translation 1.5 0.5 0.075
   children [
     Shape {
       appearance PBRAppearance {
@@ -532,7 +932,7 @@ DEF OBSTACLE_3 Solid {
 }
 
 DEF OBSTACLE_4 Solid {
-  translation -1.0 1.0 0.075
+  translation 0.5 1.0 0.075
   children [
     Shape {
       appearance PBRAppearance {
@@ -553,7 +953,7 @@ DEF OBSTACLE_4 Solid {
 
 # 占位四轮机器人（起点朝东，等待机器人组替换/改造）
 DEF PLACEHOLDER_CAR Robot {
-  translation -1.0 -1.0 0.05
+  translation -1.5 -1.5 0.05
   rotation 0 0 1 0
   children [
     DEF CAR_BODY Shape {

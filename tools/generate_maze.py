@@ -12,8 +12,9 @@
 版本迭代：换一个 --seed 就能生成一张新迷宫，配合 git 管理每一版地图。
 
 用法：
-  python3 tools/generate_maze.py            # 用默认 seed=42
-  python3 tools/generate_maze.py --seed 7   # 生成另一张迷宫
+  python3 tools/generate_maze.py                        # 默认 7×7，seed=37
+  python3 tools/generate_maze.py --seed 7               # 换迷宫
+  python3 tools/generate_maze.py --size 9 --seed 10     # 换规模 + 换迷宫
 """
 import argparse
 import os
@@ -26,7 +27,7 @@ import matplotlib.pyplot as plt
 from matplotlib.patches import Rectangle, Polygon
 
 # ---------- 迷宫规格（与 README 保持一致） ----------
-N = 5              # 每边格子数
+N = 7              # 每边格子数（可被 --size 覆盖）
 CELL = 0.5         # 通道宽 m
 WALL_T = 0.02      # 墙厚 m
 WALL_H = 0.2       # 墙高 m
@@ -151,7 +152,7 @@ def build_wbt(walls, dead_ends, rng):
         metalness 0
       }
       geometry Plane {
-        size 4 4
+        size 5.5 5.5
       }
     }
   ]
@@ -162,9 +163,11 @@ def build_wbt(walls, dead_ends, rng):
 ''')
 
     # 起点 / 终点色块（纯视觉，无碰撞，机器人可以直接碾过去）
+    sx, sy = cell_center(0, 0)
+    fx, fy = cell_center(N - 1, N - 1)
     for x, y, color, defname, label in (
-            (-1.0, -1.0, (0.15, 0.75, 0.30), 'START_PAD', '起点'),
-            (1.0, 1.0, (1.0, 0.45, 0.05), 'FINISH_PAD', '终点')):
+            (sx, sy, (0.15, 0.75, 0.30), 'START_PAD', '起点'),
+            (fx, fy, (1.0, 0.45, 0.05), 'FINISH_PAD', '终点')):
         a('DEF %s Solid {\n  translation %s %s 0.001\n  children [\n'
           '    Shape {\n      appearance PBRAppearance {\n'
           '        baseColor %s %s %s\n        roughness 1\n'
@@ -231,9 +234,9 @@ def build_wbt(walls, dead_ends, rng):
        OBST_SIZE, OBST_SIZE, OBST_SIZE, k + 1))
 
     # 占位四轮机器人（纯基础节点，R2023b 原生支持，无任何联网依赖）
-    a('''# 占位四轮机器人（起点朝东，等待机器人组替换/改造）
+    a(('''# 占位四轮机器人（起点朝东，等待机器人组替换/改造）
 DEF PLACEHOLDER_CAR Robot {
-  translation -1.0 -1.0 0.05
+  translation %s %s 0.05
   rotation 0 0 1 0
   children [
     DEF CAR_BODY Shape {
@@ -352,7 +355,7 @@ DEF PLACEHOLDER_CAR Robot {
   }
   controller "placeholder_car"
 }
-''')
+''') % (sx, sy))
     return '\n'.join(parts)
 
 
@@ -366,16 +369,18 @@ def draw_layout_png(walls, dead_ends, seed, out_path):
         plt.rcParams['axes.unicode_minus'] = False
 
     fig, ax = plt.subplots(figsize=(8.5, 8.5))
-    ax.set_xlim(-1.6, 1.6)
-    ax.set_ylim(-1.6, 1.6)
+    ax.set_xlim(-(HALF + 0.35), HALF + 0.35)
+    ax.set_ylim(-(HALF + 0.35), HALF + 0.35)
     ax.set_aspect('equal')
 
-    # 地板与起终点
+    # 地板与起终点（按当前规模自动定位）
+    sx0, sy0 = cell_center(0, 0)
+    fx0, fy0 = cell_center(N - 1, N - 1)
     ax.add_patch(Rectangle((-HALF, -HALF), 2 * HALF, 2 * HALF,
                            facecolor='#e8e8ec', edgecolor='none'))
-    ax.add_patch(Rectangle((-1.25, -1.25), CELL, CELL,
+    ax.add_patch(Rectangle((sx0 - CELL / 2, sy0 - CELL / 2), CELL, CELL,
                            facecolor='#b7e8c0', edgecolor='none'))
-    ax.add_patch(Rectangle((1.25 - CELL, 1.25 - CELL), CELL, CELL,
+    ax.add_patch(Rectangle((fx0 - CELL / 2, fy0 - CELL / 2), CELL, CELL,
                            facecolor='#ffd0a8', edgecolor='none'))
 
     # 障碍物
@@ -400,18 +405,19 @@ def draw_layout_png(walls, dead_ends, seed, out_path):
                                    facecolor='#33518f', edgecolor='none'))
 
     # 占位机器人（起点，车头朝东）
-    rx, ry = -1.0, -1.0
+    rx, ry = cell_center(0, 0)
     ax.add_patch(Polygon([(rx + 0.09, ry), (rx - 0.06, ry + 0.06),
                           (rx - 0.06, ry - 0.06)],
                          closed=True, facecolor='#2a56c6',
                          edgecolor='black', lw=0.8, zorder=5))
     ax.text(rx, ry - 0.16, '占位机器人', ha='center', va='top', fontsize=9)
 
-    ax.text(-1.0, -0.72, '起点', ha='center', va='bottom', fontsize=10)
-    ax.text(1.0, 1.13, '终点（橙色区）', ha='center', va='bottom', fontsize=10)
-    ax.text(0, 1.42, '5×5 迷宫俯视布局图（seed=%d，通道宽 0.5 m）' % seed,
+    fx, fy = cell_center(N - 1, N - 1)
+    ax.text(rx, ry + CELL / 2 + 0.03, '起点', ha='center', va='bottom', fontsize=10)
+    ax.text(fx, fy + CELL / 2 + 0.03, '终点（橙色区）', ha='center', va='bottom', fontsize=10)
+    ax.text(0, HALF + 0.17, '%d×%d 迷宫俯视布局图（seed=%d，通道宽 0.5 m）' % (N, N, seed),
             ha='center', va='bottom', fontsize=13)
-    ax.text(0, -1.38, '尺寸：场地 2.5×2.5 m　墙高 0.2 m　障碍方块 0.15 m',
+    ax.text(0, -(HALF + 0.13), '尺寸：场地 %g×%g m　墙高 0.2 m　障碍方块 0.15 m' % (2 * HALF, 2 * HALF),
             ha='center', va='top', fontsize=9, color='#555555')
 
     ax.set_xticks([])
@@ -424,10 +430,15 @@ def draw_layout_png(walls, dead_ends, seed, out_path):
 
 
 def main():
-    parser = argparse.ArgumentParser(description='5×5 DFS 迷宫生成器')
-    parser.add_argument('--seed', type=int, default=42,
+    global N, HALF
+    parser = argparse.ArgumentParser(description='DFS 迷宫生成器')
+    parser.add_argument('--size', type=int, default=7,
+                        help='每边格子数（默认 7）')
+    parser.add_argument('--seed', type=int, default=37,
                         help='随机种子，换数字即换迷宫')
     args = parser.parse_args()
+    N = args.size
+    HALF = N * CELL / 2.0
 
     walls, rng = generate_maze(args.seed)
     dead_ends = find_dead_ends(walls)
@@ -435,7 +446,7 @@ def main():
     print(ascii_layout(walls))
     print('\n死胡同格子（放置障碍物）：%s' %
           ', '.join('(%d,%d)' % d for d in dead_ends))
-    print('起点 (0,0) 左下角，终点 (4,4) 右上角')
+    print('起点 (0,0) 左下角，终点 (%d,%d) 右上角' % (N - 1, N - 1))
 
     os.makedirs(os.path.join(ROOT, 'worlds'), exist_ok=True)
     os.makedirs(os.path.join(ROOT, 'docs'), exist_ok=True)
