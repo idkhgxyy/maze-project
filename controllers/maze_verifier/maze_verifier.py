@@ -75,6 +75,7 @@ last_wp_t = t0
 last_gps, last_gps_t = None, t0
 pos_hist = []
 recover_t_end = None
+next_diag = 0.0      # 黑匣子：每秒记录一次完整状态
 
 log('验证启动：%d 个路点，起点 (-1.50, -1.50) → 终点 (1.50, 1.50)'
     % len(WAYPOINTS))
@@ -82,7 +83,13 @@ log('验证启动：%d 个路点，起点 (-1.50, -1.50) → 终点 (1.50, 1.50)
 while robot.step(timestep) != -1:
     now = robot.getTime()
     p = gps.getValues()
-    x, y = p[0], p[1]
+    x, y, z = p[0], p[1], p[2]
+
+    if now >= next_diag:
+        log('  [t=%5.1f] pos=(%.3f, %.3f, %.3f) est=%6.1f° cmd=(%5.2f,%5.2f) wp=%d/%d'
+            % (now, x, y, z, math.degrees(est), vl_cmd, vr_cmd,
+               idx + 1, len(WAYPOINTS)))
+        next_diag = now + 1.0
 
     # ---- GPS 航向更新（倒车期间不更新）----
     if recover_t_end is None and last_gps is not None \
