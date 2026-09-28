@@ -217,6 +217,12 @@ def build_wbt(w1, w2, waypoints):
     a(solid('BRIDGE_RAIL_N', 1.4, 0.86, DECK_TOP + 0.04,
             0.5, 0.02, 0.08, TEAL))
 
+    # 坡道入口引导：闸口外东侧挡墙（拦住直冲）+ 黄色转向垫（标出左转上坡点）
+    a(solid('GATE_STOPPER', 1.9, -0.9, WALL_H / 2,
+            WALL_T, 0.7, WALL_H, TEAL))
+    a(solid('TURN_PAD', 1.5, -1.0, 0.001,
+            0.35, 0.3, 0.002, (1.0, 0.85, 0.2)))
+
     a('# ===== 二层迷宫（楼板上）=====\n')
     for s in outer_walls(2, 'F2') + internal_walls(w2, DECK_TOP + WALL_H / 2, 'F2I'):
         a(s)

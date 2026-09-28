@@ -661,6 +661,46 @@ DEF BRIDGE_RAIL_N Solid {
   name "bridge_rail_n"
 }
 
+DEF GATE_STOPPER Solid {
+  translation 1.9 -0.9 0.09
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0.18 0.43 0.42
+        roughness 1
+        metalness 0
+      }
+      geometry Box {
+        size 0.02 0.7 0.18
+      }
+    }
+  ]
+  boundingObject Box {
+    size 0.02 0.7 0.18
+  }
+  name "gate_stopper"
+}
+
+DEF TURN_PAD Solid {
+  translation 1.5 -1.0 0.001
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 1.0 0.85 0.2
+        roughness 1
+        metalness 0
+      }
+      geometry Box {
+        size 0.35 0.3 0.002
+      }
+    }
+  ]
+  boundingObject Box {
+    size 0.35 0.3 0.002
+  }
+  name "turn_pad"
+}
+
 # ===== 二层迷宫（楼板上）=====
 
 DEF F2_N Solid {
