@@ -91,7 +91,7 @@ while robot.step(timestep) != -1:
     now = robot.getTime()
     p = gps.getValues()
     x, y, z = p[0], p[1], p[2]
-    raw = imu.getValues()[2]
+    raw = imu.getRollPitchYaw()[2]
 
     if now >= next_diag:
         log('  [t=%5.1f] pos=(%.3f, %.3f, %.3f) raw=%7.3f est=%6.1f° '
