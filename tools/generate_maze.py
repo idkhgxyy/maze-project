@@ -137,6 +137,8 @@ def build_wbt(walls, dead_ends, rng):
     a = parts.append
     a('#VRML_SIM R2023b utf8\n')
     a('WorldInfo {\n  basicTimeStep 16\n}\n')
+    a('# 浅色天空背景（投影仪友好）\n')
+    a('Background {\n  skyColor [ 0.78 0.84 0.88 ]\n}\n')
     a('Viewpoint {\n  orientation -0.5774 0.5774 0.5774 2.0944\n'
       '  position 0 0 3.2\n}\n')
     a('DirectionalLight {\n  direction -0.3 0.3 -1\n  intensity 1.4\n'
@@ -152,7 +154,7 @@ def build_wbt(walls, dead_ends, rng):
         metalness 0
       }
       geometry Plane {
-        size 5.5 5.5
+        size 9 9
       }
     }
   ]

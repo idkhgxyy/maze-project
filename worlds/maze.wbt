@@ -4,6 +4,12 @@ WorldInfo {
   basicTimeStep 16
 }
 
+# 浅色天空背景（投影仪友好）
+
+Background {
+  skyColor [ 0.78 0.84 0.88 ]
+}
+
 Viewpoint {
   orientation -0.5774 0.5774 0.5774 2.0944
   position 0 0 3.2
@@ -24,7 +30,7 @@ DEF FLOOR Solid {
         metalness 0
       }
       geometry Plane {
-        size 5.5 5.5
+        size 9 9
       }
     }
   ]
